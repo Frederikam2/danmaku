@@ -2,27 +2,62 @@ import controls from "../control.js";
 
 const module = {};
 
-const obj = new createjs.Shape();
-obj.graphics.beginFill("cyan").drawCircle(0, 0, 20);
-obj.x = 500;
-obj.y = 1400;
+const entity = new createjs.Shape();
+entity.graphics.beginFill("cyan").drawCircle(0, 0, 20);
+entity.x = 500;
+entity.y = 1400;
+let ticksSinceLastShot = 0;
+let stage;
+module.bullets = [];
+
+function shoot() {
+  const bulletEntity = new createjs.Shape();
+  bulletEntity.graphics.beginFill("red").drawCircle(0, 0, 8);
+  bulletEntity.x = entity.x;
+  bulletEntity.y = entity.y;
+  stage.addChild(bulletEntity);
+
+  module.bullets.push(bulletEntity);
+}
 
 module.tick = function () {
   const input = controls.getInput();
-  const speed = 20;
-  if (input.lfHeld) obj.x -= speed;
-  if (input.rtHeld) obj.x += speed;
-  if (input.fwdHeld) obj.y -= speed;
-  if (input.bckHeld) obj.y += speed;
+  const speed = 8;
+  if (input.lfHeld) entity.x -= speed;
+  if (input.rtHeld) entity.x += speed;
+  if (input.fwdHeld) entity.y -= speed;
+  if (input.bckHeld) entity.y += speed;
 
-  obj.x = Math.max(obj.x, 0);
-  obj.y = Math.max(obj.y, 0);
-  obj.x = Math.min(obj.x, document.getElementById("game").width);
-  obj.y = Math.min(obj.y, document.getElementById("game").height);
+  entity.x = Math.max(entity.x, 0);
+  entity.y = Math.max(entity.y, 0);
+  entity.x = Math.min(entity.x, document.getElementById("game").width);
+  entity.y = Math.min(entity.y, document.getElementById("game").height);
+
+  if (input.shootHeld && ticksSinceLastShot > 5) {
+    shoot();
+    ticksSinceLastShot = 0;
+  } else {
+    ticksSinceLastShot++;
+  }
+
+  let newArray = [];
+
+  module.bullets.forEach(function(ent){
+    ent.y -= 20;
+
+    if (ent.y > 0) {
+      newArray.push(ent)
+    } else {
+      stage.removeChild(ent)
+    }
+  });
+
+  module.bullets = newArray;
 };
 
-module.init = function(stage) {
-  stage.addChild(obj);
+module.init = function(s) {
+  stage = s;
+  stage.addChild(entity);
 };
 
 export default module;
