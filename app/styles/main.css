@@ -1,0 +1,16 @@
+body {
+  background-color: #2b2b2b;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
+}
+
+#game {
+  background-color: #000;
+  height: 1500px;
+  margin: calc(50vh - 1500px/2) 0 calc(50vh - 1500px/2) 0;
+}
