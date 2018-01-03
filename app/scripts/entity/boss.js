@@ -3,7 +3,8 @@ import main from '../main.js'
 module = {};
 
 let stage;
-let health = 50;
+const startHealth = 40;
+let health = startHealth;
 let dead = false;
 module.sprawls = [];
 
@@ -16,10 +17,6 @@ module.sprawlBurst = function (bullets, time, rotationModifier) {
   if (dead) return;
 
   let con = new createjs.Container();
-
-  if (bullets === undefined) bullets = 40;
-  if (time === undefined) time = 5000;
-  if (rotationModifier === undefined) rotationModifier = 1;
 
   const angleStep = (2 * Math.PI) / bullets;
   let curAngle = Math.random(); // With a hint of random
@@ -72,44 +69,59 @@ module.newBoss = function (s) {
   module.entity.graphics.beginFill('cyan').drawRect(-20, -20, 40, 40);
   module.entity.x = document.getElementById('game').width/2;
   module.entity.y = 200;
-  health = 50;
+  health = startHealth;
   dead = false;
   stage.addChild(module.entity);
 
+  module.act();
+};
+
+let currentPoint = 7;
+
+module.act = function() {
   let canvas = document.getElementById("game");
 
-
+  const w = canvas.width;
+  const oldPoint = currentPoint;
 
   const points = [
-    {x: canvas.width - 50, y: 50},
-    {x: 50, y: 50},
-    {x: canvas.width / 2, y: 200},
+    {x: 50, y: 50}, {x: w/2, y: 50}, {x: w - 50, y: 50},
+    {x: 50, y: 100},{x: w/2, y: 100},{x: w - 50, y: 100},
+    {x: 50, y: 200},{x: w/2, y: 200},{x: w - 50, y: 200},
   ];
 
-  const sprawlB = function() {
-    module.sprawlBurst(10 + Math.random() * 20);
+  // Make sure we always move a column
+  while (oldPoint % 3 === currentPoint % 3) {
+    currentPoint = Math.floor(Math.random() * points.length);
+  }
+
+  let moveTime = 200 + health * 10;
+  let restTime = 200 + health * 40;
+
+  const attack = function() {
+    if (health < 10) {
+      module.sprawlBurstDual();
+    } else {
+      let rot = 0;
+      if (module.entity.x < w/2) rot = 1;
+      else if (module.entity.x > w/2) rot = -1;
+
+      module.sprawlBurst(40, 5000, rot);
+    }
+
   };
 
-  createjs.Tween.get(module.entity, {loop: true})
-    .wait(500)
-    .call(sprawlB)
-    .wait(500)
-    .call(module.sprawlBurstDual)
-    .to(points[0], 800, createjs.Ease.sineInOut(2))
-    .wait(500)
-    .call(sprawlB)
-    .wait(500)
-    .call(module.sprawlBurstDual)
-    .to(points[1], 1000, createjs.Ease.sineInOut(2))
-    .wait(500)
-    .call(sprawlB)
-    .wait(500)
-    .call(module.sprawlBurstDual)
-    .to(points[2], 800, createjs.Ease.sineInOut(2));
+  createjs.Tween.get(module.entity)
+    .to(points[currentPoint], moveTime)
+    .wait(restTime*0.25)
+    .call(attack)
+    .wait(restTime*0.75)
+    .call(module.act);
 };
 
 module.takeHit = function() {
   health--;
+  console.log(health);
   if (health <= 0) {
     dead = true;
     main.stage.removeChild(module.entity);
