@@ -5,29 +5,25 @@ module = {};
 let stage;
 let health = 50;
 let dead = false;
-let sprawls = [];
+module.sprawls = [];
 
 module.sprawlBurstDual = function() {
-  module.sprawlBurst(10, 0.3);
-  module.sprawlBurst(10, -0.3);
+  module.sprawlBurst(15, 4500, 0.3);
+  module.sprawlBurst(15, 4500, -0.3);
 };
 
-module.sprawlBurst = function (bullets, rotationModifier) {
+module.sprawlBurst = function (bullets, time, rotationModifier) {
   if (dead) return;
 
   let con = new createjs.Container();
 
-  if (bullets === undefined) {
-    rotationModifier = 40;
-  }
+  if (bullets === undefined) bullets = 40;
+  if (time === undefined) time = 5000;
+  if (rotationModifier === undefined) rotationModifier = 1;
 
-  if (rotationModifier === undefined) {
-    rotationModifier = 1;
-  }
-
-  const angleStep = (2 * Math.PI) / 40;
+  const angleStep = (2 * Math.PI) / bullets;
   let curAngle = Math.random(); // With a hint of random
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < bullets; i++) {
     let bullet = new createjs.Shape();
     bullet.graphics.beginFill('purple').drawCircle(0, 0, 5);
 
@@ -37,7 +33,7 @@ module.sprawlBurst = function (bullets, rotationModifier) {
     };
 
     createjs.Tween.get(bullet)
-      .to(endPoint, 5000);
+      .to(endPoint, time);
 
     con.addChild(bullet);
 
@@ -54,6 +50,7 @@ module.sprawlBurst = function (bullets, rotationModifier) {
     });
 
   stage.addChild(con);
+  module.sprawls.push(con);
 };
 
 module.newBoss = function (s) {
@@ -74,28 +71,32 @@ module.newBoss = function (s) {
     {x: canvas.width / 2, y: 200},
   ];
 
+  const sprawlB = function() {
+    module.sprawlBurst(10 + Math.random() * 20);
+  };
+
   createjs.Tween.get(module.entity, {loop: true})
     .wait(500)
-    .call(module.sprawlBurst)
+    .call(sprawlB)
     .wait(500)
     .call(module.sprawlBurstDual)
     .to(points[0], 800, createjs.Ease.sineInOut(2))
     .wait(500)
-    .call(module.sprawlBurst)
+    .call(sprawlB)
     .wait(500)
     .call(module.sprawlBurstDual)
     .to(points[1], 1000, createjs.Ease.sineInOut(2))
     .wait(500)
-    .call(module.sprawlBurst)
+    .call(sprawlB)
     .wait(500)
     .call(module.sprawlBurstDual)
     .to(points[2], 800, createjs.Ease.sineInOut(2));
 };
 
 module.takeHit = function() {
-  dead = true;
   health--;
   if (health <= 0) {
+    dead = true;
     main.stage.removeChild(module.entity);
     module.entity.y = -1000
   }
