@@ -2,8 +2,11 @@ import character from "./entity/character.js";
 import boss from "./entity/boss.js";
 import physics from "./physics.js";
 
+module = {};
+
 function init() {
   const stage = new createjs.Stage("game");
+  module.stage = stage;
   character.init(stage);
   createjs.Ticker.framerate = 60;
   boss.newBoss(stage);
@@ -13,3 +16,5 @@ function init() {
 }
 
 window.onload = init;
+
+export default module;

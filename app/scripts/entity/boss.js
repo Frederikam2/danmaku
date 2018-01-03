@@ -1,6 +1,8 @@
+import main from '../main.js'
+
 module = {};
 
-let health = 100;
+let health = 50;
 
 module.newBoss = function (stage) {
   module.entity = new createjs.Shape();
@@ -11,7 +13,11 @@ module.newBoss = function (stage) {
 };
 
 module.takeHit = function() {
-
+  health--;
+  if (health <= 0) {
+    main.stage.removeChild(module.entity);
+    module.entity.y = -1000
+  }
 };
 
 export default module;
