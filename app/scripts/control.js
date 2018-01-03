@@ -13,6 +13,7 @@ const KEYCODE_R = 82;
 
 document.onkeydown = handleKeyDown;
 document.onkeyup = handleKeyUp;
+let started = false;
 
 let controls = {
   shootHeld: false,
@@ -29,6 +30,11 @@ function handleKeyDown(e) {
   }
 
   //console.log(e);
+
+  if (!started) {
+    started = true;
+    main.start();
+  }
 
   switch (e.keyCode) {
     case KEYCODE_SPACE:

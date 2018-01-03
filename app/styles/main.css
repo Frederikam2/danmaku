@@ -2,15 +2,18 @@ body {
   background-color: #2b2b2b;
 }
 
+h1, p {
+  color: white;
+  text-align: center;
+}
+
 .main {
   display: flex;
   justify-content: center;
   align-content: center;
-  height: 100vh;
 }
 
 #game {
   background-color: #000;
   height: 800px;
-  margin: calc(50vh - 800px/2) 0 calc(50vh - 800px/2) 0;
 }
