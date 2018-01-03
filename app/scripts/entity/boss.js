@@ -55,10 +55,25 @@ module.sprawlBurst = function (bullets, time, rotationModifier) {
 
 module.newBoss = function (s) {
   stage = s;
+
+  // Clean up after the last boss
+  if (module.entity !== undefined) {
+    stage.removeChild(module.entity);
+    createjs.Tween.removeTweens(module.entity);
+
+    module.sprawls.forEach(function (container) {
+      stage.removeChild(container);
+    });
+
+    module.sprawls = [];
+  }
+
   module.entity = new createjs.Shape();
   module.entity.graphics.beginFill('cyan').drawRect(-20, -20, 40, 40);
   module.entity.x = document.getElementById('game').width/2;
   module.entity.y = 200;
+  health = 50;
+  dead = false;
   stage.addChild(module.entity);
 
   let canvas = document.getElementById("game");

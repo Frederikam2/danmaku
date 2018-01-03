@@ -59,6 +59,14 @@ module.init = function(s) {
   stage = s;
   module.entity.x = document.getElementById("game").width / 2;
   module.entity.y = document.getElementById("game").height - 100;
+
+  // Remove any remaining bullets from the stage
+  module.bullets.forEach(function (bullet) {
+    stage.removeChild(bullet);
+  });
+
+  module.bullets = [];
+  dead = false;
   stage.addChild(module.entity);
 };
 

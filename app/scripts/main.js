@@ -15,6 +15,12 @@ function init() {
   createjs.Ticker.addEventListener("tick", stage);
 }
 
+module.restart = function() {
+  console.log("Restarting the game");
+  boss.newBoss(module.stage);
+  character.init(module.stage);
+};
+
 window.onload = init;
 
 export default module;

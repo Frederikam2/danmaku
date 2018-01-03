@@ -1,3 +1,5 @@
+import main from './main.js'
+
 const KEYCODE_SPACE = 32;
 const KEYCODE_UP = 38;
 const KEYCODE_LEFT = 37;
@@ -7,6 +9,7 @@ const KEYCODE_W = 87;
 const KEYCODE_A = 65;
 const KEYCODE_S = 83;
 const KEYCODE_D = 68;
+const KEYCODE_R = 82;
 
 document.onkeydown = handleKeyDown;
 document.onkeyup = handleKeyUp;
@@ -24,6 +27,9 @@ function handleKeyDown(e) {
   if (!e) {
     e = window.event;
   }
+
+  //console.log(e);
+
   switch (e.keyCode) {
     case KEYCODE_SPACE:
       controls.shootHeld = true;
@@ -71,6 +77,9 @@ function handleKeyUp(e) {
     case KEYCODE_S:
     case KEYCODE_DOWN:
       controls.bckHeld = false;
+      return false;
+    case KEYCODE_R:
+      main.restart();
       return false;
   }
 }
