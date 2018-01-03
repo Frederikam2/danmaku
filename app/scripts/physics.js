@@ -18,6 +18,22 @@ module.tick = function () {
       boss.takeHit();
     }
   });
+
+  // Handle boss bullets
+  boss.sprawls.forEach(function(container) {
+    const characterUpperX = character.entity.x - 8;
+    const characterLowerX = character.entity.x + 8;
+    const characterUpperY = character.entity.y - 8;
+    const characterLowerY = character.entity.y + 8;
+
+    container.children.forEach(function(bullet) {
+      const global = container.localToGlobal(bullet.x, bullet.y);
+      if (global.x >= characterUpperX && global.x <= characterLowerX
+        && global.y >= characterUpperY && global.y <= characterLowerY) {
+        character.takeHit();
+      }
+    });
+  });
 };
 
 export default module;
