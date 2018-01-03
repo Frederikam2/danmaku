@@ -105,8 +105,9 @@ module.act = function() {
   const attack = function() {
     if (module.health <= 30) {
       module.sprawlBurstDual();
+      module.sprawlBurst(10, 2000, rot);
     } else if (module.health <= 50) {
-      module.sprawlBurst(60, 5000, rot);
+      module.sprawlBurst(50, 5000, rot);
     } else {
       module.sprawlBurst(40, 5000, rot);
     }
