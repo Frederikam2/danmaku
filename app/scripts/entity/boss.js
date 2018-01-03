@@ -3,7 +3,7 @@ import main from '../main.js'
 module = {};
 
 let stage;
-const startHealth = 100;
+const startHealth = 70;
 let health = startHealth;
 let dead = false;
 module.sprawls = [];
