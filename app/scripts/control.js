@@ -5,7 +5,7 @@ const KEYCODE_RIGHT = 39;
 const KEYCODE_DOWN = 40;
 const KEYCODE_W = 87;
 const KEYCODE_A = 65;
-const KEYCODE_S = 63;
+const KEYCODE_S = 83;
 const KEYCODE_D = 68;
 
 document.onkeydown = handleKeyDown;
