@@ -98,24 +98,31 @@ module.act = function() {
   let moveTime = 200 + health * 10;
   let restTime = 200 + health * 40;
 
+  let rot = 0;
+  if (module.entity.x < w/2) rot = 1;
+  else if (module.entity.x > w/2) rot = -1;
+
   const attack = function() {
-    if (health < 10) {
+    if (health < 30) {
       module.sprawlBurstDual();
     } else {
-      let rot = 0;
-      if (module.entity.x < w/2) rot = 1;
-      else if (module.entity.x > w/2) rot = -1;
-
       module.sprawlBurst(40, 5000, rot);
     }
+  };
 
+  const secondAttack = function() {
+    if (health < 20) {
+      module.sprawlBurst(40-health, 3000, rot);
+    }
   };
 
   createjs.Tween.get(module.entity)
     .to(points[currentPoint], moveTime)
     .wait(restTime*0.25)
     .call(attack)
-    .wait(restTime*0.75)
+    .wait(restTime*0.50)
+    .call(secondAttack)
+    .wait(restTime*0.25)
     .call(module.act);
 };
 
