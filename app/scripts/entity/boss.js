@@ -3,7 +3,7 @@ import main from '../main.js'
 module = {};
 
 let stage;
-const startHealth = 40;
+const startHealth = 100;
 let health = startHealth;
 let dead = false;
 module.sprawls = [];
@@ -95,24 +95,27 @@ module.act = function() {
     currentPoint = Math.floor(Math.random() * points.length);
   }
 
-  let moveTime = 200 + health * 10;
-  let restTime = 200 + health * 40;
+  let moveTime = 100 + health * 10;
+  let restTime = 100 + health * 30;
 
   let rot = 0;
   if (module.entity.x < w/2) rot = 1;
   else if (module.entity.x > w/2) rot = -1;
 
   const attack = function() {
-    if (health < 30) {
+    if (health <= 30) {
       module.sprawlBurstDual();
+    } else if (health <= 50) {
+      module.sprawlBurst(60, 5000, rot);
     } else {
       module.sprawlBurst(40, 5000, rot);
     }
   };
 
   const secondAttack = function() {
-    if (health < 20) {
-      module.sprawlBurst(40-health, 3000, rot);
+    if (health <= 20) {
+      module.sprawlBurst(40-health, 3000,
+        health <= 10 ? rot * 2 : rot);
     }
   };
 

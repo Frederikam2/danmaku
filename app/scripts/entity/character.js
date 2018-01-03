@@ -3,7 +3,7 @@ import controls from "../control.js";
 const module = {};
 
 module.entity = new createjs.Shape();
-module.entity.graphics.beginFill("cyan").drawCircle(0, 0, 15);
+module.entity.graphics.beginFill("cyan").drawCircle(0, 0, 10);
 let ticksSinceLastShot = 0;
 let stage;
 module.bullets = [];
@@ -22,7 +22,7 @@ function shoot() {
 
 module.tick = function () {
   const input = controls.getInput();
-  const speed = 5;
+  const speed = 4.5;
   if (input.lfHeld) module.entity.x -= speed;
   if (input.rtHeld) module.entity.x += speed;
   if (input.fwdHeld) module.entity.y -= speed;

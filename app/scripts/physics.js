@@ -21,10 +21,10 @@ module.tick = function () {
 
   // Handle boss bullets
   boss.sprawls.forEach(function(container) {
-    const characterUpperX = character.entity.x - 8;
-    const characterLowerX = character.entity.x + 8;
-    const characterUpperY = character.entity.y - 8;
-    const characterLowerY = character.entity.y + 8;
+    const characterUpperX = character.entity.x - 5;
+    const characterLowerX = character.entity.x + 5;
+    const characterUpperY = character.entity.y - 5;
+    const characterLowerY = character.entity.y + 5;
 
     container.children.forEach(function(bullet) {
       const global = container.localToGlobal(bullet.x, bullet.y);
