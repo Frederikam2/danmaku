@@ -15,17 +15,17 @@ function init() {
   title.y = 200;
   title.textAlign = "center";
 
-  const controls = new createjs.Text("WASD or arrow keys to move", "20px sans", "#ffffff");
+  const controls = new createjs.Text("WASD or arrow keys to move", "20px sans-serif", "#ffffff");
   controls.x = canvas.width/2;
   controls.y = 250;
   controls.textAlign = "center";
 
-  const shoot = new createjs.Text("Space to shoot", "20px sans", "#ffffff");
+  const shoot = new createjs.Text("Space to shoot", "20px sans-serif", "#ffffff");
   shoot.x = canvas.width/2;
   shoot.y = 280;
   shoot.textAlign = "center";
 
-  const restart = new createjs.Text("\'R\' to restart", "20px sans", "#ffffff");
+  const restart = new createjs.Text("\'R\' to restart", "20px sans-serif", "#ffffff");
   restart.x = canvas.width/2;
   restart.y = 310;
   restart.textAlign = "center";
