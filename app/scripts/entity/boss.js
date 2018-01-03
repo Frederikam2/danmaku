@@ -4,7 +4,7 @@ module = {};
 
 let stage;
 const startHealth = 70;
-let health = startHealth;
+module.health = startHealth;
 let dead = false;
 module.sprawls = [];
 
@@ -66,10 +66,10 @@ module.newBoss = function (s) {
   }
 
   module.entity = new createjs.Shape();
-  module.entity.graphics.beginFill('cyan').drawRect(-20, -20, 40, 40);
+  module.entity.graphics.beginFill('cyan').drawRect(-35, -35, 70, 70);
   module.entity.x = document.getElementById('game').width/2;
   module.entity.y = 200;
-  health = startHealth;
+  module.health = startHealth;
   dead = false;
   stage.addChild(module.entity);
 
@@ -95,17 +95,17 @@ module.act = function() {
     currentPoint = Math.floor(Math.random() * points.length);
   }
 
-  let moveTime = 100 + health * 10;
-  let restTime = 100 + health * 30;
+  let moveTime = 100 + module.health * 10;
+  let restTime = 100 + module.health * 30;
 
   let rot = 0;
   if (module.entity.x < w/2) rot = 1;
   else if (module.entity.x > w/2) rot = -1;
 
   const attack = function() {
-    if (health <= 30) {
+    if (module.health <= 30) {
       module.sprawlBurstDual();
-    } else if (health <= 50) {
+    } else if (module.health <= 50) {
       module.sprawlBurst(60, 5000, rot);
     } else {
       module.sprawlBurst(40, 5000, rot);
@@ -113,9 +113,9 @@ module.act = function() {
   };
 
   const secondAttack = function() {
-    if (health <= 20) {
-      module.sprawlBurst(40-health, 3000,
-        health <= 10 ? rot * 2 : rot);
+    if (module.health <= 20) {
+      module.sprawlBurst(40-module.health, 3000,
+        module.health <= 10 ? rot * 2 : rot);
     }
   };
 
@@ -130,12 +130,17 @@ module.act = function() {
 };
 
 module.takeHit = function() {
-  health--;
-  console.log(health);
-  if (health <= 0) {
+  module.health--;
+  console.log(module.health);
+  if (module.health <= 0 && !dead) {
     dead = true;
     main.stage.removeChild(module.entity);
-    module.entity.y = -1000
+    module.entity.y = -1000;
+
+    module.sprawls.forEach(function (container) {
+      createjs.Tween.get(container)
+        .to({alpha: 0}, 3000)
+    })
   }
 };
 

@@ -5,10 +5,10 @@ import main from './main.js';
 module = {};
 
 module.tick = function () {
-  const bossUpperX = boss.entity.x - 32;
-  const bossLowerX = boss.entity.x + 32;
-  const bossUpperY = boss.entity.y - 32;
-  const bossLowerY = boss.entity.y + 32;
+  const bossUpperX = boss.entity.x - 35;
+  const bossLowerX = boss.entity.x + 35;
+  const bossUpperY = boss.entity.y - 35;
+  const bossLowerY = boss.entity.y + 35;
 
   character.bullets.forEach(function (ent) {
     if (ent.x >= bossUpperX && ent.x <= bossLowerX
@@ -18,6 +18,8 @@ module.tick = function () {
       boss.takeHit();
     }
   });
+
+  if (boss.health <= 0) return;
 
   // Handle boss bullets
   boss.sprawls.forEach(function(container) {
