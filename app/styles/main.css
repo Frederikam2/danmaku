@@ -11,6 +11,6 @@ body {
 
 #game {
   background-color: #000;
-  height: 1500px;
-  margin: calc(50vh - 1500px/2) 0 calc(50vh - 1500px/2) 0;
+  height: 800px;
+  margin: calc(50vh - 800px/2) 0 calc(50vh - 800px/2) 0;
 }
